@@ -67,12 +67,24 @@ def delete_client(client_name):
         _nonexistent_client(client_name)
 
 
+def search_client(client_name):
+    clients_list = clients.split(', ')
+
+    for client in clients_list:
+        if client != client_name:
+            continue
+        else:
+            return True
+
+
 def _print_welcome():
-    print('WELCOME TO Platzi VENTAS\n' + '*' * 50)
+    print('\tWELCOME TO Platzi VENTAS\n' + '*' * 50)
     print('What would you like to do today?')
     print('[C]create client')
+    print('[L]list  clients')
     print('[U]update client')
     print('[D]delete client')
+    print('[S]search client')
 
 
 def _get_client_name():
@@ -88,6 +100,8 @@ if __name__ == '__main__':
         client_name = _get_client_name()
         create_a_client(client_name)
         list_clients()
+    elif command == 'L':
+        list_clients()
     elif command == 'U':
         client_name = _get_client_name()
         updated_client_name = input(
@@ -96,5 +110,12 @@ if __name__ == '__main__':
     elif command == 'D':
         client_name = _get_client_name()
         delete_client(client_name)
+    elif command == 'S':
+        client_name = _get_client_name()
+        found = search_client(client_name)
+        if found:
+            print(f'The client {client_name} is in the list')
+        else:
+            print(f'The client {client_name} is not in the list')
     else:
         print('Invalid command')
