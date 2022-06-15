@@ -1,3 +1,4 @@
+import sys
 clients = 'Pablo, Ricardo, '
 
 
@@ -88,7 +89,17 @@ def _print_welcome():
 
 
 def _get_client_name():
-    return input('What is the client name? ').capitalize()
+    client_name = None
+    while not client_name:
+        client_name = input('What is the client name? ').title()
+
+        if client_name == 'Exit':
+            client_name = None
+            break
+    if not client_name:
+        sys.exit()
+
+    return client_name
 
 
 if __name__ == '__main__':
@@ -105,7 +116,7 @@ if __name__ == '__main__':
     elif command == 'U':
         client_name = _get_client_name()
         updated_client_name = input(
-            'What is the new client name? ').capitalize()
+            'What is the new client name? ').title()
         update_client(client_name, updated_client_name)
     elif command == 'D':
         client_name = _get_client_name()
