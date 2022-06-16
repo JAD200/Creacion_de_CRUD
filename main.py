@@ -1,5 +1,6 @@
 import sys
-clients = 'Pablo, Ricardo, '
+
+clients = ['Pablo', 'Ricardo', ]
 
 
 def create_a_client(client_name):
@@ -11,22 +12,15 @@ def create_a_client(client_name):
 # ?  Allows the use of variables in the global scope like 'clients'
     global clients
     if client_name not in clients:
-        clients += client_name
-        _add_comma()
+        clients.append(client_name)
     else:
         print('Client is already in the clients list')
 
 
-def _add_comma():
-    global clients
-
-    clients += ','
-
-
 def list_clients():
-    global clients
-
-    print(f"\nClients list:\n{clients}")
+    print('\nList of clients')
+    for index, client in enumerate(clients):
+        print(f'{index}: {client}')
 
 
 def _nonexistent_client(client_name):
@@ -47,7 +41,8 @@ def update_client(client_name, updated_client_name):
     """
     global clients
     if client_name in clients:
-        clients = clients.replace(client_name, updated_client_name)
+        index = clients.index(client_name)
+        clients[index] = updated_client_name
         list_clients()
     else:
         _nonexistent_client(client_name)
@@ -62,16 +57,14 @@ def delete_client(client_name):
     global clients
 
     if client_name in clients:
-        clients = clients.replace(client_name + ',', '')
-        list_clients()
+        clients.remove(client_name)
+        print(f'{client_name} deleted')
     else:
         _nonexistent_client(client_name)
 
 
 def search_client(client_name):
-    clients_list = clients.split(', ')
-
-    for client in clients_list:
+    for client in clients:
         if client != client_name:
             continue
         else:
