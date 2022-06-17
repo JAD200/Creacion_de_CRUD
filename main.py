@@ -16,16 +16,17 @@ clients = [
 ]
 
 
-def create_a_client(client):
+def create_a_client(client_to_add):
     """create_a_client Adds a client to the dictionary
 
     Args:
-        client (str): Name of the client to be added
+        client_to_add (dict): Information of the client to be created
     """
 # ?  Allows the use of variables in the global scope like 'clients'
     global clients
     if client not in clients:
         clients.append(client)
+        list_clients()
     else:
         print('Client is already in the dictionary')
 
@@ -37,52 +38,73 @@ def list_clients():
             f"{index} | {client['name']} | {client['company']} | {client['email']} | {client['position']}")
 
 
-def _nonexistent_client(client_name):
+def _nonexistent_client(client_id):
     """_nonexistent_client Message shown in case the client doesn't exists in the dictionary
 
     Args:
-        client_name (str): Name input by the user
+        client_id (int): Name input by the user
     """
-    print(f'Client {client_name} is not in the list')
+    print(f'Client {client_id} is not in the list')
 
 
-def update_client(client_name, updated_client_name):
+def update_client(client_id):
     """update_client Updates the name of an existing client with another
 
     Args:
-        client_name (str): Client to be replaced
-        updated_client_name (str): New name of the client replaced
+        client_id (int): Client to be replaced
     """
     global clients
-    if client_name in clients:
-        index = clients.index(client_name)
-        clients[index] = updated_client_name
+    if len(clients) - 1 >= client_id and client_id >= 0:
+        updated_client = _get_client_from_user()
+        clients[client_id] = updated_client
         list_clients()
     else:
-        _nonexistent_client(client_name)
+        _nonexistent_client(client_id)
 
 
-def delete_client(client_name):
+def delete_client(client_id):
     """delete_client Deletes an existing client
 
     Args:
-        client_name (str): Name of the client to be deleted
+        client_id (int): UID of the client to be deleted
     """
     global clients
 
-    if client_name in clients:
-        clients.remove(client_name)
-        print(f'{client_name} deleted')
+    for index, client in enumerate(clients):
+        if index == client_id:
+            del clients[index]
+            print(f"""Client {client_id} deleted""")
+            break
     else:
-        _nonexistent_client(client_name)
+        _nonexistent_client(client_id)
 
 
 def search_client(client_name):
     for client in clients:
-        if client != client_name:
+        if client['name'] != client_name:
             continue
         else:
             return True
+
+
+def _get_client_field(field_name):
+    field = None
+
+    while not field:
+        field = input(f'What is the client {field_name}? ')
+
+    return field
+
+
+def _get_client_from_user():
+    client = {
+        'name': _get_client_field('name').title(),
+        'company': _get_client_field('company'),
+        'email': _get_client_field('email'),
+        'position': _get_client_field('position').capitalize(),
+    }
+
+    return client
 
 
 def _print_welcome():
@@ -95,59 +117,33 @@ def _print_welcome():
     print('[S]search client')
 
 
-def _get_client_field(field_name):
-    field = None
-
-    while not field:
-        field = input(f'What is the client {field_name}? ')
-
-    return field
-
-
-def _get_client_name():
-    client_name = None
-    while not client_name:
-        client_name = input('What is the client name? ').title()
-
-        if client_name == 'Exit':
-            client_name = None
-            break
-    if not client_name:
-        sys.exit()
-
-    return client_name
-
-
 if __name__ == '__main__':
     _print_welcome()
 
     command = input().upper()
 
     if command == 'C':
-        client_name = {
-            'name': _get_client_field('name'),
+        client_to_add = {
+            'name': _get_client_field('name').title(),
             'company': _get_client_field('company'),
             'email': _get_client_field('email'),
-            'position': _get_client_field('position')
+            'position': _get_client_field('position').capitalize()
         }
-        create_a_client(client_name)
-        list_clients()
+        create_a_client(client_to_add)
     elif command == 'L':
         list_clients()
     elif command == 'U':
-        client_name = _get_client_name()
-        updated_client_name = input(
-            'What is the new client name? ').title()
-        update_client(client_name, updated_client_name)
+        client_id = int(_get_client_field('id'))
+        update_client(client_id)
     elif command == 'D':
-        client_name = _get_client_name()
-        delete_client(client_name)
+        client_id = int(_get_client_field('id'))
+        delete_client(client_id)
     elif command == 'S':
-        client_name = _get_client_name()
+        client_name = _get_client_field('name').title()
         found = search_client(client_name)
         if found:
             print(f'The client {client_name} is in the list')
         else:
-            print(f'The client {client_name} is not in the list')
+            print(f'Sadly, the client {client_name} is not in the list')
     else:
         print('Invalid command')
