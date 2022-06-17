@@ -24,8 +24,8 @@ def create_a_client(client_to_add):
     """
 # ?  Allows the use of variables in the global scope like 'clients'
     global clients
-    if client not in clients:
-        clients.append(client)
+    if client_to_add not in clients:
+        clients.append(client_to_add)
         list_clients()
     else:
         print('Client is already in the dictionary')
