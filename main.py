@@ -1,30 +1,44 @@
 import sys
 
-clients = ['Pablo', 'Ricardo', ]
+clients = [
+    {
+        'name': 'Pablo',
+        'company': 'Google',
+        'email': 'pablo@google.com',
+        'position': 'Software engineer'
+    },
+    {
+        'name': 'Ricardo',
+        'company': 'Facebook',
+        'email': 'ricardo@facebook.com',
+        'position': 'Data engineer'
+    }
+]
 
 
-def create_a_client(client_name):
-    """create_a_client Adds a client to the list
+def create_a_client(client):
+    """create_a_client Adds a client to the dictionary
 
     Args:
-        client_name (str): Name of the client to be added
+        client (str): Name of the client to be added
     """
 # ?  Allows the use of variables in the global scope like 'clients'
     global clients
-    if client_name not in clients:
-        clients.append(client_name)
+    if client not in clients:
+        clients.append(client)
     else:
-        print('Client is already in the clients list')
+        print('Client is already in the dictionary')
 
 
 def list_clients():
     print('\nList of clients')
     for index, client in enumerate(clients):
-        print(f'{index}: {client}')
+        print(
+            f"{index} | {client['name']} | {client['company']} | {client['email']} | {client['position']}")
 
 
 def _nonexistent_client(client_name):
-    """_nonexistent_client Message shown in case the client doesn't exists in the list
+    """_nonexistent_client Message shown in case the client doesn't exists in the dictionary
 
     Args:
         client_name (str): Name input by the user
@@ -81,6 +95,15 @@ def _print_welcome():
     print('[S]search client')
 
 
+def _get_client_field(field_name):
+    field = None
+
+    while not field:
+        field = input(f'What is the client {field_name}? ')
+
+    return field
+
+
 def _get_client_name():
     client_name = None
     while not client_name:
@@ -101,7 +124,12 @@ if __name__ == '__main__':
     command = input().upper()
 
     if command == 'C':
-        client_name = _get_client_name()
+        client_name = {
+            'name': _get_client_field('name'),
+            'company': _get_client_field('company'),
+            'email': _get_client_field('email'),
+            'position': _get_client_field('position')
+        }
         create_a_client(client_name)
         list_clients()
     elif command == 'L':
