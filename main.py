@@ -1,19 +1,35 @@
+#   SYS
 import sys
+#   OS
+import os
+#   CSV
+import csv
 
-clients = [
-    {
-        'name': 'Pablo',
-        'company': 'Google',
-        'email': 'pablo@google.com',
-        'position': 'Software engineer'
-    },
-    {
-        'name': 'Ricardo',
-        'company': 'Facebook',
-        'email': 'ricardo@facebook.com',
-        'position': 'Data engineer'
-    }
-]
+CLIENT_TABLE = '.clients.csv'
+CLIENT_SCHEMA = ['name', 'company', 'email', 'position']
+clients = []
+
+
+def _initialize_clients_from_storage():
+    """_initialize_clients_from_storage Opens the csv file with the clients
+    """
+    with open(CLIENT_TABLE, 'r') as f:
+        reader = csv.DictReader(f, fieldnames=CLIENT_SCHEMA)
+
+        for row in reader:
+            clients.append(row)
+
+
+def _save_clients_to_storage():
+    """_save_clients_to_storage Updates and saves the changes done by the user in the csv file with the clients
+    """
+    tmp_table_name = '{}.tmp'.format(CLIENT_TABLE)
+    with open(tmp_table_name, 'w') as f:
+        writer = csv.DictWriter(f, fieldnames=CLIENT_SCHEMA)
+        writer.writerows(clients)
+
+        os.remove(CLIENT_TABLE)
+        os.rename(tmp_table_name, CLIENT_TABLE)
 
 
 def create_a_client(client_to_add):
@@ -26,7 +42,6 @@ def create_a_client(client_to_add):
     global clients
     if client_to_add not in clients:
         clients.append(client_to_add)
-        list_clients()
     else:
         print('Client is already in the dictionary')
 
@@ -57,7 +72,6 @@ def update_client(client_id):
     if len(clients) - 1 >= client_id and client_id >= 0:
         updated_client = _get_client_from_user()
         clients[client_id] = updated_client
-        list_clients()
     else:
         _nonexistent_client(client_id)
 
@@ -118,6 +132,7 @@ def _print_welcome():
 
 
 if __name__ == '__main__':
+    _initialize_clients_from_storage()
     _print_welcome()
 
     command = input().upper()
@@ -147,3 +162,5 @@ if __name__ == '__main__':
             print(f'Sadly, the client {client_name} is not in the list')
     else:
         print('Invalid command')
+
+    _save_clients_to_storage()
