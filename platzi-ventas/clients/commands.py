@@ -1,5 +1,8 @@
 import click
-
+#   Tabulate
+#   for more info: https://bit.ly/3brDT3K
+from tabulate import tabulate
+#   Services and models
 from clients.services import ClientService
 from clients.models import Client
 
@@ -57,11 +60,18 @@ def list(ctx):
 
     clients_list = client_service.list_clients()
 
-    click.echo('ID   |   NAME    |   COMPANY     |   EMAIL   |   POSITION ')
-    click.echo('*' * 100)
+    headers = [field.upper() for field in Client.schema()]
+    table = []
 
     for client in clients_list:
-        click.echo(f"{client['uid']} | {client['name']} | {client['company']} | {client['email']} | {client['position']}")
+        table.append([
+            client['name'],
+            client['company'],
+            client['email'],
+            client['position'],
+            client['uid']])
+
+    click.echo(tabulate(table, headers))
 
 
 @clients.command()
