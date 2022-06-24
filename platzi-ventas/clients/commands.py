@@ -53,7 +53,15 @@ def list(ctx):
     Args:
         ctx (dict): Dictionary with the rest of the clients
     """
-    pass
+    client_service = ClientService(ctx.obj['clients_table'])
+
+    clients_list = client_service.list_clients()
+
+    click.echo('ID   |   NAME    |   COMPANY     |   EMAIL   |   POSITION ')
+    click.echo('*' * 100)
+
+    for client in clients_list:
+        click.echo(f"{client['uid']} | {client['name']} | {client['company']} | {client['email']} | {client['position']}")
 
 
 @clients.command()
