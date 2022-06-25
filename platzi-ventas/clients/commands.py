@@ -117,9 +117,18 @@ def delete(ctx, client_uid):
 
     Args:
         ctx (dict): Dictionary with the rest of the clients
-        client_uid (uid): UID of the user to update
+        client_uid (uid): UID of the user to delete
     """
-    pass
+    client_service = ClientService(ctx.obj['clients_table'])
+    client_list = client_service.list_clients()
 
+    client = [client for client in client_list if client['uid'] == client_uid]
+
+    if client:
+        client_service.delete_client(client)
+
+        click.echo('Client deleted')
+    else:
+        click.echo('Client uid does not exists\nClient not deleted')
 
 all = clients
