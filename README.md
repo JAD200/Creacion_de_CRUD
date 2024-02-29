@@ -19,7 +19,7 @@
 <h3 align="center">Linear structures</h3>
 
   <p align="center">
-    In this repository I explore the creation, list, update and delete of users of a program called "Platzi-ventas"
+    In this repository, I delve into the implementation of CRUD operations, encompassing the creation, listing, updating, and deletion of users within the "Platzi-ventas" program
     <br />
     <a href="https://github.com/JAD200/Creacion_de_CRUD" target="blank" referrerpolicy="no-referrer"><strong>Explore the docs »</strong></a>
 </div>
