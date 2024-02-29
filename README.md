@@ -16,10 +16,10 @@
     <img src="https://i.imgur.com/fDkhooA.png" alt="Python logo" width="300" >
   </a>
 
-<h3 align="center">Estructuras lineales</h3>
+<h3 align="center">Linear structures</h3>
 
   <p align="center">
-    Made a program to explore the creation, list, update and delete of user in a program called "Platzi-ventas"
+    In thus repository I explore the creation, list, update and delete of users of a program called "Platzi-ventas"
     <br />
     <a href="https://github.com/JAD200/Creacion_de_CRUD" target="blank" referrerpolicy="no-referrer"><strong>Explore the docs »</strong></a>
 </div>
